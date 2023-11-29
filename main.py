@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import argparse
 
 from flask import Flask, request, Response
 import requests
@@ -163,5 +164,14 @@ def proxy(path):
     return Response(stream_generate(), mimetype='text/event-stream')
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='OpenAI API Proxy')
+    parser.add_argument("--port", help="The listening port", default="3000", nargs="?")
+
+    args = parser.parse_args()
+    return args
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9000)
+    args = parse_args()
+    app.run(host='0.0.0.0', port=args.port)
